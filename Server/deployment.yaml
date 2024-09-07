@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-server-deployment
+  labels:
+    app: nodejs-server
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: nodejs-server
+  template:
+    metadata:
+      labels:
+        app: nodejs-server
+    spec:
+      containers:
+        - name: nodejs-server
+          image: donexfdz/nodejs-server:latest
+          ports:
+            - containerPort: 9072 
+          env:
+            - name: PORT
+              value: "9072"
+            - name: CLIENT_URL
+              value: "http://localhost:5173"
+            - name: SECRET
+              value: "donexfiencehjpetfdy6k56f7g4,yfmjtmjtmujw"
+            - name: MONGO_URL
+              value: "mongodb+srv://donexfience:rvGY6TcqDlQqfTlm@cluster0.cohum9k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+            - name: GOOGLE_CLIENT_ID
+              value: "1057012590274-nm713e8s53gj0s7h44f7lolrn06ua8cd.apps.googleusercontent.com"
+            - name: MAIL_PASS
+              value: "mjfp vzrq yapq depj"
+            - name: MAIL_USER
+              value: "gamersloot2002@gmail.com"
+            - name: MAIL_HOST
+              value: "smtp.gmail.com"
+            - name: KEY_ID
+              value: "rzp_test_G0Bly61lW4bqO7"
+            - name: KEY_SECRET
+              value: "QhQ3TUJPOMCUnDV0RfIrgzb0"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-service
+spec:
+  selector:
+    app: nodejs-server
+  ports:
+    - protocol: TCP
+      port: 80 # External port
+      targetPort: 9072 # Internal port of the container
+  type: LoadBalancer
