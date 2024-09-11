@@ -57,6 +57,6 @@ spec:
     app: nodejs-server
   ports:
     - protocol: TCP
-      port: 80 # External port
-      targetPort: 9072 # Internal port of the container
+      port: 80 
+      targetPort: 9072 
   type: LoadBalancer
